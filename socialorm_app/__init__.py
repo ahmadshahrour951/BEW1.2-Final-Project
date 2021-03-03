@@ -33,8 +33,8 @@ bcrypt = Bcrypt(app)
 from socialorm_app.main.routes import main as main_routes
 app.register_blueprint(main_routes)
 
-# from socialorm_app.auth.routes import auth as auth_routes
-# app.register_blueprint(auth_routes)
+from socialorm_app.auth.routes import auth as auth_routes
+app.register_blueprint(auth_routes)
 
 with app.app_context():
     db.create_all()

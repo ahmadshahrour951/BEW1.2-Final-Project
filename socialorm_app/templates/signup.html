@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Sign Up</h1>
+
+<form action="/signup" method="POST">
+    {{ form.csrf_token }}
+    <fieldset>
+        <legend>Enter your details</legend>
+
+        {{ form.name.label }}
+        {{ form.name }}
+        <ul>
+        {% for error in form.name.errors %}
+            <li class="text-danger">{{ error }}</li>
+        {% endfor %}
+        </ul>
+
+        {{  form.dob.label }}
+        {{ form.dob }}
+        <ul>
+        {% for error in form.dob.errors %}
+            <li class="text-danger">{{ error }}</li>
+        {% endfor %}
+        </ul>
+
+        {{ form.email.label }}
+        {{ form.email }}
+        <ul>
+        {% for error in form.email.errors %}
+            <li class="text-danger">{{ error }}</li>
+        {% endfor %}
+        </ul>
+
+        {{ form.institution.label }}
+        {{ form.institution }}
+        <ul>
+        {% for error in form.institution.errors %}
+            <li class="text-danger">{{ error }}</li>
+        {% endfor %}
+        </ul>
+
+        {{ form.residence.label }}
+        {{ form.residence }}
+        <ul>
+        {% for error in form.residence.errors %}
+            <li class="text-danger">{{ error }}</li>
+        {% endfor %}
+        </ul>
+
+        {{ form.dorm_room.label }}
+        {{ form.dorm_room }}
+        <ul>
+        {% for error in form.dorm_room.errors %}
+            <li class="text-danger">{{ error }}</li>
+        {% endfor %}
+        </ul>
+
+        {{ form.password.label }}
+        {{ form.password }}
+        <ul>
+        {% for error in form.password.errors %}
+            <li class="text-danger">{{ error }}</li>
+        {% endfor %}
+        </ul>
+
+        {{ form.confirm_password.label }}
+        {{ form.confirm_password }}
+
+        {{ form.submit }}
+
+    </fieldset>
+</form>
+
+{% endblock %}
