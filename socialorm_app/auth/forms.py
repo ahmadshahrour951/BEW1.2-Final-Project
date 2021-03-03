@@ -10,7 +10,7 @@ from wtforms.fields.html5 import DateField
 class SignUpForm(FlaskForm):
     name = StringField(label='Name',  validators=[DataRequired(), Length(min=3, max=50)])
     dob = DateField('Date of Birth', format='%Y-%m-%d')
-    institution = QuerySelectField(label='Institution', query_factory=lambda: Institution.query.all(), allow_blank=False, get_label='name')
+    institution = QuerySelectField(label='Institution', query_factory=lambda: Institution.query, allow_blank=False, get_label='name')
     residence = QuerySelectField(label='Residence', query_factory=lambda: Residence.query, allow_blank=False, get_label='name')
     dorm_room = StringField(label='Dorm Room', validators=[DataRequired(), Length(min=3, max=5)])
     email = StringField(label='Email', validators=[DataRequired(), Length(min=3, max=50)])

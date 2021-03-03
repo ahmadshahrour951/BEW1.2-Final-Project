@@ -1,3 +1,15 @@
 {% extends 'base.html' %}
 
-{% block content %}{% endblock %}
+{% block content %}
+
+{% for user in users %}
+<a href="/user/{{ user.id }}" class="card shadow nounderline">
+  <div class="card-body">
+    <h5 class="card-title">{{ user.name }}</h5>
+    <p class="card-text">Dorm room: {{ user.dorm_room }}</p>
+  </div>
+</a>
+{% endfor %}
+
+
+{% endblock %}
