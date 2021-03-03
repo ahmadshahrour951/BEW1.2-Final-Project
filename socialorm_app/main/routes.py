@@ -29,3 +29,20 @@ def user_detail(user_id):
   is_following = user in current_user.followees
   return render_template('user_detail.html', user=user, is_following=is_following)
 
+@main.route('/follow', methods=['POST'])
+@login_required
+def follow():
+  followee_id = request.form.get('followee_id')
+  followee = User.query.get(followee_id)
+  current_user.followees.append(followee)
+  db.session.commit()
+  return redirect(url_for('main.user_detail', user_id=followee_id))
+
+@main.route('/unfollow', methods=['POST'])
+@login_required
+def unfollow():
+  followee_id = request.form.get('followee_id')
+  followee = User.query.get(followee_id)
+  current_user.followees.remove(followee)
+  db.session.commit()
+  return redirect(url_for('main.user_detail', user_id=followee_id))
