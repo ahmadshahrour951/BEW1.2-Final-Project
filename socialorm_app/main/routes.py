@@ -17,11 +17,15 @@ main = Blueprint("main", __name__)
 @main.route('/')
 @login_required
 def homepage():
-  #DONT FORGET TO REMOVE current_user FROM users
-    users = User.query.filter_by(residence_id=current_user.residence_id)
+    users = User.query.filter_by(residence_id=current_user.residence_id).all()
+    users.remove(current_user)
     return render_template('home.html', users=users)
 
 @main.route('/user/<user_id>', methods=['GET', 'POST'])
 @login_required
 def user_detail(user_id):
-  pass
+  user = User.query.get(user_id)
+  print(current_user.followers)
+  is_following = user in current_user.followees
+  return render_template('user_detail.html', user=user, is_following=is_following)
+

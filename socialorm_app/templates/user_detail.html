@@ -1,0 +1,20 @@
+{% extends 'base.html' %} {% block content %}
+<div class="card">
+  <div class="card-body">
+    <h3 class="card-title">{{ user.name }}</h3>
+    <hr>
+    <p class="card-text">Birthday: {{ user.dob }}</p>
+    <p class="card-text">Dorm room: {{ user.dorm_room }}</p>
+    <p class="card-text">Status: {{ user.status }}</p>
+    {% if is_following %}
+    <form action="{{ url_for('main.unfollow') }}" method="POST">
+      <button name="followee_id" type="submit" value="{{ user.id }}" class="btn btn-danger">Unfollow</button>
+    </form>
+    {% else %}
+    <form action="{{ url_for('main.follow') }}" method="POST">
+      <button name="followee_id" type="submit" value="{{ user.id }}" class="btn btn-primary">Follow</button>
+    </form>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

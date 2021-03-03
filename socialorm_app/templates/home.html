@@ -6,7 +6,8 @@
 <a href="/user/{{ user.id }}" class="card shadow nounderline">
   <div class="card-body">
     <h5 class="card-title">{{ user.name }}</h5>
-    <p class="card-text">Dorm room: {{ user.dorm_room }}</p>
+    <hr>
+    <p class="card-text">Status: {{ user.status }}</p>
   </div>
 </a>
 {% endfor %}
