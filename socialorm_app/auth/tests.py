@@ -17,14 +17,11 @@ python3 -m unittest socialorm_app.auth.tests
 
 def create_residences():
     in1 = Institution(name='Make School')
-
     res1 = Residence(name='The Herbert Hotel',
                      address='161 Powell St, San Francisco', institution=in1)
-    res2 = Residence(name='Nob Hill Guesthouse by FOUND',
-                     address='851 California St, San Francisco', institution=in1)
 
+    db.session.add(in1)
     db.session.add(res1)
-    db.session.add(res2)
     db.session.commit()
 
 
