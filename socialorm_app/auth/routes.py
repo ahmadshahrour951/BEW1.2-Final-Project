@@ -1,9 +1,9 @@
 from flask import Blueprint, request, render_template, redirect, url_for, flash
-from flask_login import login_user, logout_user, login_required, current_user
+from flask_login import login_user, logout_user, login_required
 
-from socialorm_app.models import Institution, Residence, User
+from socialorm_app.models import User
 from socialorm_app.auth.forms import SignUpForm, LoginForm
-from socialorm_app import bcrypt, app, db
+from socialorm_app import bcrypt, db
 
 auth = Blueprint("auth", __name__)
 

@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
-from wtforms.validators import DataRequired, Length, ValidationError, EqualTo
+from wtforms.validators import DataRequired, Length, ValidationError, EqualTo, Email
 from socialorm_app.models import Institution, Residence, User
 from socialorm_app import bcrypt
 from wtforms.fields.html5 import DateField
@@ -13,7 +13,7 @@ class SignUpForm(FlaskForm):
     institution = QuerySelectField(label='Institution', query_factory=lambda: Institution.query, allow_blank=False, get_label='name')
     residence = QuerySelectField(label='Residence', query_factory=lambda: Residence.query, allow_blank=False, get_label='name')
     dorm_room = StringField(label='Dorm Room', validators=[DataRequired(), Length(min=3, max=5)])
-    email = StringField(label='Email', validators=[DataRequired(), Length(min=3, max=50)])
+    email = StringField(label='Email', validators=[DataRequired(), Length(min=3, max=80), Email(message='Invalid email format')], )
     password = PasswordField(label='Password', validators=[DataRequired(), EqualTo('confirm_password', message='Passwords must match')])
     confirm_password = PasswordField(label='Confirm Password')
     submit = SubmitField(label='Sign Up')

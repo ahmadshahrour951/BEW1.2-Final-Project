@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>{{ current_user.name }}</h1>
+
+<form action="/profile" method="POST" class="card">
+    {{ form.csrf_token }}
+    <fieldset>
+    <legend>You can edit your details</legend>
+      <div class="form-group">
+          {{ form.dob.label }}
+          {{ form.dob }}
+          <ul>
+          {% for error in form.dob.errors %}
+              <li class="text-danger">{{ error }}</li>
+          {% endfor %}
+          </ul>
+      </div>
+
+    <div class="form-group">
+    {{ form.institution.label }}
+    {{ form.institution }}
+      <ul>
+        {% for error in form.institution.errors %}
+            <li class="text-danger">{{ error }}</li>
+        {% endfor %}
+        </ul>
+    </div>
+
+    <div class="form-group">
+    {{ form.residence.label }}
+    {{ form.residence }}
+    <ul>
+        {% for error in form.residence.errors %}
+            <li class="text-danger">{{ error }}</li>
+        {% endfor %}
+        </ul>
+      </div>
+    
+    <div class="form-group">
+    {{ form.dorm_room.label }}
+    {{ form.dorm_room }}
+    <ul>
+        {% for error in form.dorm_room.errors %}
+            <li class="text-danger">{{ error }}</li>
+        {% endfor %}
+        </ul>
+    </div>
+
+    <div class="form-group">
+    {{ form.status.label }}
+    {{ form.status }}
+    <ul>
+        {% for error in form.status.errors %}
+            <li class="text-danger">{{ error }}</li>
+        {% endfor %}
+        </ul>
+    </div>
+
+    {{ form.submit }}
+
+</form>
+
+
+{% endblock %}
