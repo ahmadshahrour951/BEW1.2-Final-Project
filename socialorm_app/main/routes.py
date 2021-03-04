@@ -34,7 +34,6 @@ def profile():
 @login_required
 def user_detail(user_id):
   user = User.query.get(user_id)
-  print(current_user.followers)
   is_following = user in current_user.followees
   return render_template('user_detail.html', user=user, is_following=is_following)
 
@@ -55,3 +54,8 @@ def unfollow():
   current_user.followees.remove(followee)
   db.session.commit()
   return redirect(url_for('main.user_detail', user_id=followee_id))
+
+@main.route('/followers', methods=['GET'])
+@login_required
+def followers():
+  return render_template('followers.html')

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% for follower in current_user.followers %}
+<a href="/user/{{ follower.id }}" class="card shadow nounderline">
+  <div class="card-body">
+    <h5 class="card-title">{{ follower.name }}</h5>
+    <hr>
+    <p class="card-text">Status: {{ follower.status }}</p>
+  </div>
+</a>
+{% endfor %}
+
+{% endblock %}

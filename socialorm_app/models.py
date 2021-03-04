@@ -44,7 +44,9 @@ class User(UserMixin, db.Model):
   residence_id = db.Column(db.Integer, db.ForeignKey('residence.id'), nullable=False)
   residence = db.relationship('Residence', back_populates='users')
 
-  followers = db.relationship('User', secondary=user_followers, 
+  followers = db.relationship(
+  'User', 
+  secondary=user_followers, 
   primaryjoin=id==user_followers.c.followee_id, 
   secondaryjoin=id==user_followers.c.follower_id, 
   backref=backref('followees')
