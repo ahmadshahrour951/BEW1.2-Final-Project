@@ -30,6 +30,7 @@ def profile():
     current_user.dob = form.dob.data
     current_user.residence = form.residence.data
     current_user.dorm_room = form.dorm_room.data
+    current_user.status = form.status.data
 
     db.session.commit()
   return render_template('profile.html',  form=form)
