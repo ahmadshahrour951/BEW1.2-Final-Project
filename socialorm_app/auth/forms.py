@@ -19,11 +19,14 @@ class SignUpForm(FlaskForm):
     submit = SubmitField(label='Sign Up')
 
     def validate_email(self, email):
+      #Ensuring the user does not have an already made account
         user = User.query.filter_by(email=email.data).first()
         if user:
             raise ValidationError('That email is taken. Please choose a different one.')
     
     def validate_residence(self, residence):
+        # Residence and Institution is a double bind, in order to mitigate, a custom validator is created for resdience
+        # its pushing the responsiblity of the user to make the changes, however in the future this should be controlled by the developer to imporove expereience
         if residence.data.institution != self.institution.data:
           raise ValidationError(f'{residence.data.name} is not part of {self.institution.data.name}')
 
@@ -35,11 +38,13 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Log In')
 
     def validate_email(self, email):
+      # ensuring the use exists in the database
         user = User.query.filter_by(email=email.data).first()
         if not user:
             raise ValidationError('No user with that email. Please try again.')
 
     def validate_password(self, password):
+        # This is where the validation of the password in the database is crosschecked via bcrypt
         user = User.query.filter_by(email=self.email.data).first()
         if user and not bcrypt.check_password_hash(
                 user.password, password.data):

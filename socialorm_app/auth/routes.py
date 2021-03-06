@@ -9,8 +9,10 @@ auth = Blueprint("auth", __name__)
 
 @auth.route('/signup', methods=['GET', 'POST'])
 def signup():
+  #The signup route that provides a form and creates the user
     form = SignUpForm()
     if form.validate_on_submit():
+      # hash the user's password and save it
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
 
         user = User(
@@ -35,6 +37,7 @@ def login():
     form = LoginForm()
 
     if form.validate_on_submit():
+      # this is the validation step to find the user in the database
         user = User.query.filter_by(email=form.email.data).first()
         login_user(user, remember=True)
         next_page = request.args.get('next')

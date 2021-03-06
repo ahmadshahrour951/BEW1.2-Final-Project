@@ -16,6 +16,7 @@ python3 -m unittest socialorm_app.auth.tests
 
 
 def create_residences():
+    # Mock an institution and residence, this is required to create a user
     in1 = Institution(name='Make School')
     res1 = Residence(name='The Herbert Hotel',
                      address='161 Powell St, San Francisco', institution=in1)
@@ -26,6 +27,7 @@ def create_residences():
 
 
 def create_user():
+   # Mock a user, a user belongs to a residence that we created above
     res_1 = Residence.query.filter_by(name='The Herbert Hotel').one()
 
     user_1_obj = {
@@ -71,6 +73,7 @@ class AuthTests(TestCase):
         db.create_all()
 
     def test_signup(self):
+        # this test should succesffully allow a user to signup
         create_residences()
         in1 = Institution.query.filter_by(name='Make School').one()
         res1 = Residence.query.filter_by(name='The Herbert Hotel').one()
@@ -94,6 +97,7 @@ class AuthTests(TestCase):
         self.assertEqual('test_1@gmail.com', user.email)
 
     def test_signup_existing_user(self):
+        # This should reject the user if the user wants to signup again with an existing account in the database
         create_residences()
         in1 = Institution.query.filter_by(name='Make School').one()
         res1 = Residence.query.filter_by(name='The Herbert Hotel').one()
@@ -118,6 +122,7 @@ class AuthTests(TestCase):
             'That email is taken. Please choose a different one.', response_text)
 
     def test_login_correct_password(self):
+        # This test should succesffully log a user in knowing the password and email are correct
         create_residences()
         create_user()
 
@@ -130,10 +135,12 @@ class AuthTests(TestCase):
             '/login', data=data,  follow_redirects=True)
         response_text = response.get_data(as_text=True)
 
+        # This is a direct way to know if the user is actually logged in from the navbar in base.html
         self.assertNotIn('Log In', response_text)
         self.assertIn('Profile', response_text)
 
     def test_login_nonexistent_user(self):
+      # Testing a login which does not exist in the database, it should reject the request
         create_residences()
         create_user()
 
@@ -149,6 +156,7 @@ class AuthTests(TestCase):
         self.assertIn('No user with that email. Please try again.', res_text)
 
     def test_login_incorrect_password(self):
+      # This tests if the passwords do not match, it should reject the user
         create_residences()
         create_user()
 
@@ -165,6 +173,7 @@ class AuthTests(TestCase):
             "Password doesn&#39;t match. Please try again.", res_text)
 
     def test_logout(self):
+        # This tests when a user does login, and then logs out.
         create_residences()
         create_user()
 

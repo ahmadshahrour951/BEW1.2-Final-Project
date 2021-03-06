@@ -14,12 +14,8 @@ python3 -m unittest socialorm_app.main.tests
 # Setup
 #################################################
 
-#################################################
-# Setup
-#################################################
-
-
 def login(client, email, password):
+    # Mock a user login, all routes in main require a login
     return client.post('/login', data=dict(
         email=email,
         password=password
@@ -27,10 +23,12 @@ def login(client, email, password):
 
 
 def logout(client):
+  # Mock a user logout
     return client.get('/logout', follow_redirects=True)
 
 
 def create_residences():
+  # Create Mock institutions and residences for tests
     in1 = Institution(name='Make School')
     res1 = Residence(name='The Herbert Hotel',
                      address='161 Powell St, San Francisco', institution=in1)
@@ -49,6 +47,7 @@ def create_residences():
 
 
 def create_users():
+   # create multiple users for tests
     res_1 = Residence.query.filter_by(name='The Herbert Hotel').one()
     res_2 = Residence.query.filter_by(
         name='Nob Hill Guesthouse by FOUND').one()
@@ -138,6 +137,7 @@ class MainTests(TestCase):
         db.create_all()
 
     def test_homepage_logged_out(self):
+
         response = self.app.get('/', follow_redirects=True)
         self.assertEqual(response.status_code, 200)
 
@@ -152,6 +152,7 @@ class MainTests(TestCase):
         self.assertNotIn('Log Out', response_text)
 
     def test_homepage_logged_in(self):
+        #While logged in, how does the homepage look like
         create_residences()
         create_users()
         login(self.app, 'test_1@gmail.com', 'password_1')
@@ -161,6 +162,7 @@ class MainTests(TestCase):
 
         response_text = response.get_data(as_text=True)
 
+        #Things we expect, we expect to see test_2 because that user is in the same residence as test_1
         self.assertIn('Profile', response_text)
         self.assertIn('Followers', response_text)
         self.assertIn('Log Out', response_text)
@@ -168,18 +170,20 @@ class MainTests(TestCase):
         self.assertIn('test_2', response_text)
         self.assertIn('Status: Available', response_text)
 
+        #Things we dont expect, we shouldnt see test_3 because that user is in a different residence from test_1
         self.assertNotIn('Log In', response_text)
         self.assertNotIn('Sign Up', response_text)
         self.assertNotIn('test_3', response_text)
 
     def test_user_detail_logged_in(self):
+        #While logged in how does the user detail page looj like
         create_residences()
         create_users()
         login(self.app, 'test_1@gmail.com', 'password_1')
 
         response = self.app.get('/user/2', follow_redirects=True)
         self.assertEqual(response.status_code, 200)
-
+        # Things we expect
         response_text = response.get_data(as_text=True)
         self.assertIn('Profile', response_text)
         self.assertIn('Followers', response_text)
@@ -191,11 +195,13 @@ class MainTests(TestCase):
         self.assertIn('Status: Available', response_text)
         self.assertIn('Follow', response_text)
 
+        #Things we dont expect
         self.assertNotIn('Log In', response_text)
         self.assertNotIn('Sign Up', response_text)
         self.assertNotIn('Unfollow', response_text)
     
     def test_user_follow(self):
+      # Test the follow feature in a residence,  test_ 1 should be able to follow test_2
       create_residences()
       create_users()
       login(self.app, 'test_1@gmail.com', 'password_1')
@@ -216,6 +222,7 @@ class MainTests(TestCase):
       self.assertIn('Birthday: 2000-01-01', response_text)
       self.assertIn('Dorm room: 102', response_text)
       self.assertIn('Status: Available', response_text)
+      # this is the main attribute for the follow test
       self.assertIn('Unfollow', response_text)
 
       self.assertNotIn('Log In', response_text)
@@ -231,6 +238,7 @@ class MainTests(TestCase):
           'followee_id': 2
       }
 
+      # Follow then unfollow test_ 2,
       self.app.post('/follow', data=data, follow_redirects=True)
       response = self.app.post('/unfollow', data=data, follow_redirects=True)
       self.assertEqual(response.status_code, 200)
@@ -244,6 +252,7 @@ class MainTests(TestCase):
       self.assertIn('Birthday: 2000-01-01', response_text)
       self.assertIn('Dorm room: 102', response_text)
       self.assertIn('Status: Available', response_text)
+      #this is the main test
       self.assertIn('Follow', response_text)
 
       self.assertNotIn('Log In', response_text)
@@ -251,6 +260,7 @@ class MainTests(TestCase):
       self.assertNotIn('Unfollow', response_text)
 
     def test_get_profile_logged_in(self):
+      #Here we're just checking test_1 is able to see their details correctly
         create_residences()
         create_users()
         login(self.app, 'test_1@gmail.com', 'password_1')
@@ -273,6 +283,7 @@ class MainTests(TestCase):
 
 
     def test_update_profile_logged_in(self):
+        # Testing whether user can update their details via profile page
         create_residences()
         create_users()
         login(self.app, 'test_1@gmail.com', 'password_1')
@@ -299,6 +310,7 @@ class MainTests(TestCase):
         self.assertIn('Followers', response_text)
         self.assertIn('Log Out', response_text)
 
+        # Check if changed elements are actually changed once redirected
         self.assertIn('test_1', response_text)
         self.assertIn('2000-01-02', response_text)
         self.assertIn('Make School', response_text)

@@ -14,5 +14,7 @@ class ProfileForm(FlaskForm):
     submit = SubmitField(label='Update')
 
     def validate_residence(self, residence):
+        # Residence and Institution is a double bind, in order to mitigate, a custom validator is created for resdience
+        # its pushing the responsiblity of the user to make the changes, however in the future this should be controlled by the developer to imporove expereience
         if residence.data.institution != self.institution.data:
           raise ValidationError(f'{residence.data.name} is not part of {self.institution.data.name}')
