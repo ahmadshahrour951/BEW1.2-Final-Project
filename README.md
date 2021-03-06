@@ -15,7 +15,7 @@ An webapp that helps create a community within student dorms! The idea is simple
 The data structure mimics reality, where institutions have many residences in different locations. In those residences you have many students (which are called users in the app for simplicity). Those students can follow other students. (Follow in this app just simply means a simple click of a button, no further functionility). Following requires a followee and a follower, so the many-to-many table for user_followers was created by referencing itself.
 
 First Table | Second Table | Relationship
------------- | -------------
+------------ | ------------- | -------------
 Institutions | Residences | One-to-Many
 Residences | Users | One-to-Many
 Users (Followee) | Users (Follower) | Many-to-Many
