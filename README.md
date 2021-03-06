@@ -10,7 +10,7 @@ An webapp that helps create a community within student dorms! The idea is simple
 - Database ORM: Sqlalchemy v1.3.23
 
 ## Project Database Structure
-![Image of Data structure](https://drive.google.com/file/d/1jqdPoUGf-EBR7w2jbYoO6jdaPUvvARHN/view?usp=sharing)
+![Image of Data structure](https://drive.google.com/uc?export=view&id=1jqdPoUGf-EBR7w2jbYoO6jdaPUvvARHN)
 
 The data structure mimics reality, where institutions have many residences in different locations. In those residences you have many students (which are called users in the app for simplicity). Those students can follow other students. (Follow in this app just simply means a simple click of a button, no further functionility). Following requires a followee and a follower, so the many-to-many table for user_followers was created by referencing itself.
 
